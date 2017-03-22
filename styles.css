@@ -1,23 +1,58 @@
-h1 {
-    text-align: center;
+body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
 }
 
-#cards {
+h1 {
+	text-align: center;
+}
+
+#projects {
   margin-left: auto;
   margin-right: auto;
-  width: 80%;
+  width: 99%;
 }
 
-.demo-card-square.mdl-card {
-  width: 320px;
-  height: 320px;
+.projectcard {
+	margin-top: 5px;
+	margin-bottom: 5px;
+  border:1px solid black;
+  border-radius: 20px;
+	overflow: hidden;
 }
 
-.demo-card-square > .mdl-card__title {
-  color: #fff;
-  background: #46B6AC;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: 0.9;
+.projectname {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 20px;
+	font-size: 800%;
+	float: left;
+}
+
+.projectstats {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 20px;
+	float: right;
+}
+
+.hasvline {
+	text-align: center;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-right: 5px solid black;
+	font-size:800%;
+	display: inline;
+}
+
+.daystat {
+	text-align: center;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 1000%;
+	display: inline;
+}
+
+.lastcommit{
+	font-size: 300%;
+	text-align: right;
 }

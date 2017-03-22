@@ -91,10 +91,42 @@ function update()
 	for (var x=0; x<projectsList.length; x++)
 	{
 		var newdiv = document.createElement("div");
+		newdiv.setAttribute("class", "projectcard");
 		var stats = getStats(projectsList[x].github);
-		newdiv.innerHTML = projectsList[x].projectname + "\t" + projectsList[x].color + "\t" + stats[0] + "\t" + stats[1] + "\t" + stats[2] + "\t" + stats[3];
+
+		var namediv = document.createElement("div");
+		namediv.setAttribute("class", "projectname");
+		namediv.innerHTML = projectsList[x].projectname;
+		newdiv.appendChild(namediv);
+
+		var statsdiv = document.createElement("div");
+		statsdiv.setAttribute("class", "projectstats");
+
+		var monthdiv = document.createElement("div");
+		monthdiv.setAttribute("class", "hasvline");
+		monthdiv.innerHTML = stats[0];
+		statsdiv.appendChild(monthdiv);
+
+		var weekdiv = document.createElement("div");
+		weekdiv.setAttribute("class", "hasvline");
+		weekdiv.innerHTML = stats[1];
+		statsdiv.appendChild(weekdiv);
+
+
+		var daydiv = document.createElement("div");
+		daydiv.setAttribute("class", "daystat");
+		daydiv.innerHTML = stats[2];
+		statsdiv.appendChild(daydiv);
+
+		var lastcommit = document.createElement("div");
+		lastcommit.setAttribute("class", "lastcommit");
+		lastcommit.innerHTML = stats[3];
+		statsdiv.appendChild(lastcommit);
+
+		newdiv.appendChild(statsdiv);
+
 		document.getElementById("projects").appendChild(newdiv);
 	}
 }
 
-setInterval(update,10000);
+setInterval(update,13215); // some randomness :P
