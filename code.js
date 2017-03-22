@@ -1,5 +1,7 @@
 
-var address = 'https://api.github.com/repos/Coolnesss/lapio-galleria/contents/profiles'
+var address = 'https://api.github.com/repos/semihiseri/github-radiator/contents/projects'
+
+
 
 $.get(address, function(data) {
   data.forEach(function(entry) {
