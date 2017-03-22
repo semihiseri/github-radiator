@@ -1,29 +1,45 @@
 
 var address = 'https://api.github.com/repos/semihiseri/github-radiator/contents/projects'
 
+function getjson(addr)
+{
+  var myArr;
+	var request = new XMLHttpRequest();
+	request.open("GET", addr, false);
+	request.send();
+	myArr = JSON.parse(request.responseText);
+	return myArr;
+}
 
+function getStats(addr)
+{
+	
+//	var baseaddr =
+//	var weeklyaddr = addr
+}
 
-$.get(address, function(data) {
-  data.forEach(function(entry) {
-    $.getJSON(entry.download_url, function(data) {
-      $("#cards")[0].className = "mdl-grid"
-      $("#cards").append(`
-        <div class="mdl-cell mdl-cell--4-col" id=${entry.sha}>
-          <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6), transparent), url("${data.picture}");' class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">${data.name} (${data.ircnick})</h2>
-            </div>
-            <div class="mdl-card__supporting-text">
-              ${data.description}
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a href=${data.homepage} class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                Visit Homepage
-              </a>
-            </div>
-          </div>
-        </div>`
-      );
-    })
-  })
-})
+function update()
+{
+	var projects = getjson(address);
+	var projectsList = [];
+	for (var x=0; x<projects.length; x++)
+	{
+		projectsList[projectsList.length] = getjson(projects[x].download_url);
+	}
+
+	// array sort will come here
+
+	var proj = document.getElementById("projects");
+	while (proj.firstChild) {
+		proj.removeChild(proj.firstChild);
+	}	
+
+	for (var x=0; x<projectsList.length; x++)
+	{
+		var newdiv = document.createElement("div");
+		newdiv.innerHTML = projectsList[x].projectname + "\t" + projectsList[x].github + "\t" + projectsList[x].color;
+		document.getElementById("projects").appendChild(newdiv);
+	}
+}
+
+setInterval(update,10000);
