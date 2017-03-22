@@ -1,0 +1,23 @@
+h1 {
+    text-align: center;
+}
+
+#cards {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background: #46B6AC;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.9;
+}
