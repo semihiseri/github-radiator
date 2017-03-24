@@ -1,6 +1,51 @@
 
 var address = 'https://api.github.com/repos/semihiseri/github-radiator/contents/projects'
 
+// Source: http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
+function componentToHex(c)
+{
+	var hex = c.toString(16);
+	return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b)
+{
+	return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function hexToRgb(hex)
+{
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+		r: parseInt(result[1], 16),
+		g: parseInt(result[2], 16),
+		b: parseInt(result[3], 16)
+	} : null;
+}
+
+function inverseColor(color)
+{
+	var rgb = hexToRgb(color);
+	rgb.r = 255 - rgb.r;
+	rgb.g = 255 - rgb.g;
+	rgb.b = 255 - rgb.b;
+	return rgbToHex(rgb.r, rgb.g, rgb.b);
+}
+
+function mixColors(main, second, ratio) // ratio is the ratio of second/main. So, blue, black 0.1 is slightly darker blue. But it's still blue.
+{
+	var mainrgb = hexToRgb(main);
+	var secondrgb = hexToRgb(second);
+	var newrgb = hexToRgb("#000000");
+
+	newrgb.r = Math.floor(mainrgb.r*(1-ratio) + secondrgb.r*ratio);
+	newrgb.g = Math.floor(mainrgb.g*(1-ratio) + secondrgb.g*ratio);
+	newrgb.b = Math.floor(mainrgb.b*(1-ratio) + secondrgb.b*ratio);
+
+	return rgbToHex(newrgb.r, newrgb.g, newrgb.b);
+}
+
 function getjson(addr)
 {
   var myArr;
@@ -9,6 +54,16 @@ function getjson(addr)
 	request.send();
 	myArr = JSON.parse(request.responseText);
 	return myArr;
+}
+
+function timeSinceLastCommit(obj)
+{
+	var addr = obj.github
+	var baseaddr = addr.slice(addr.search("github.com")+11);
+	var lastaddr = "https://api.github.com/repos/" + baseaddr + "/commits/master";
+	var last = getjson(lastaddr);
+
+	return (new Date() - new Date(last.commit.committer.date));
 }
 
 function getStats(addr) // returns number of counts [lastmonth, lastweek, lastday, timesincelastcommit]
@@ -81,7 +136,7 @@ function update()
 		projectsList[projectsList.length] = project;
 	}
 
-	// array sort will come here
+	projectsList.sort(function(a, b){return timeSinceLastCommit(a) - timeSinceLastCommit(b)})
 
 	var proj = document.getElementById("projects");
 	while (proj.firstChild) {
@@ -92,6 +147,12 @@ function update()
 	{
 		var newdiv = document.createElement("div");
 		newdiv.setAttribute("class", "projectcard");
+		var given = projectsList[x].color;
+		var base = mixColors(given, inverseColor(given), 0.2); // mix with its inverse
+		var bkg = mixColors(base, "#FFFFFF", 0.5); // mix with white
+		var text = mixColors(base, "#000000", 0.7); // mix with black
+		newdiv.style.backgroundColor = bkg;
+		newdiv.style.color = text;
 		var stats = getStats(projectsList[x].github);
 
 		var namediv = document.createElement("div");
