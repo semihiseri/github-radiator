@@ -149,8 +149,8 @@ function update()
 		newdiv.setAttribute("class", "projectcard");
 		var given = projectsList[x].color;
 		var base = mixColors(given, inverseColor(given), 0.2); // mix with its inverse
-		var bkg = mixColors(base, "#FFFFFF", 0.5); // mix with white
-		var text = mixColors(base, "#000000", 0.7); // mix with black
+		var bkg = mixColors(base, "#FFFFFF", 0.7); // mix with white
+		var text = mixColors(base, "#000000", 0.8); // mix with black
 		newdiv.style.backgroundColor = bkg;
 		newdiv.style.color = text;
 		var stats = getStats(projectsList[x].github);
